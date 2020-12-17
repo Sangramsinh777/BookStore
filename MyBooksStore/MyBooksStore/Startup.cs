@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -42,12 +43,34 @@ namespace MyBooksStore
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.UseEndpoints(endpoints=> {
+                endpoints.MapDefaultControllerRoute();
             });
+
+
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=Home}/{action=Index}/{id?}");
+            //});
+
+            //app.UseEndpoints(endpoints=> {
+            //    endpoints.MapGet("/", async context =>
+            //    {
+
+            //        if (env.IsDevelopment())
+            //        {
+            //            await context.Response.WriteAsync($"Hello From:{env.EnvironmentName}");
+            //        }
+            //        else {
+            //            await context.Response.WriteAsync($"Hello From:{env.EnvironmentName}");
+            //        }
+                    
+            //    });
+            //});
         }
     }
 }

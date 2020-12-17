@@ -18,10 +18,14 @@ namespace MyBooksStore.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public string Index()
         {
-            return View();
+            return "BooksStore!";
         }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
 
         public IActionResult Privacy()
         {
