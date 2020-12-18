@@ -1,8 +1,50 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+<link href="~/css/MyStyle.css" rel="stylesheet" />
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to Book Store</h1>
+    <h3>@DateTime.Now.ToString()</h3>
+    <h2>Sum=@(5+5)</h2>
+    <h1>Multiline</h1>
+    <b>
+        @{
+            int a = 10, b = 20;
+            int c = a + b;
+        }
+        Sum of A+B:@c
+    </b>
+    <img src="~/image/3.jpeg" alt="Speedometer" class="box" />
+    <img src="~/MyResources/Elepanit.jpg" />
+    <b>Twitter=@@gmail.com</b>
+    @{
+        int aa = 10;
+    }
+
+
+    @if (aa <= 5)
+    {
+        <b>Hello From If</b>
+    }
+    else
+    {
+        <b>Hello From Else</b>
+    }
+
+    @{
+        for (int i = 0; i < 5; i++)
+        {
+            <h3>Hello From Loop</h3>
+        }
+    }
+
+    <h1>ForEach</h1>
+    @{
+        var list = new List<int> { 1, 2, 3 };
+        foreach (var item in list)
+        {
+            <b>@item</b>
+        }
+    }
+
 </div>

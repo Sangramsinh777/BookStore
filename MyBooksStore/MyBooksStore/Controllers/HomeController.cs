@@ -18,10 +18,22 @@ namespace MyBooksStore.Controllers
             _logger = logger;
         }
 
-        public string Index()
+        public ViewResult Index()
         {
-            return "BooksStore!";
+            //return View("TempView/test.cshtml");
+            //return View("~/TempView/test.cshtml");
+            //return View("../../TempView/test");
+            return View();
         }
+        //public ViewResult Index()
+        //{
+        //    return View("AboutUs");
+        //}
+
+        //public string Index()
+        //{
+        //    return "BooksStore!";
+        //}
         //public IActionResult Index()
         //{
         //    return View();
