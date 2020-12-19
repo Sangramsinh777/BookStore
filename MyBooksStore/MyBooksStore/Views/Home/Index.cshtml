@@ -1,50 +1,65 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-<link href="~/css/MyStyle.css" rel="stylesheet" />
-<div class="text-center">
-    <h1 class="display-4">Welcome to Book Store</h1>
-    <h3>@DateTime.Now.ToString()</h3>
-    <h2>Sum=@(5+5)</h2>
-    <h1>Multiline</h1>
-    <b>
-        @{
-            int a = 10, b = 20;
-            int c = a + b;
-        }
-        Sum of A+B:@c
-    </b>
-    <img src="~/image/3.jpeg" alt="Speedometer" class="box" />
-    <img src="~/MyResources/Elepanit.jpg" />
-    <b>Twitter=@@gmail.com</b>
-    @{
-        int aa = 10;
-    }
+﻿<section class="jumbotron text-center" >
+    <div class="container">
+        <h1>Welcom To Bookstore</h1>
+        <p class="lead text-muted">
+            Hello , Welcome to our book store. ypu can find any book as you. you can read any book.
+        </p>
+        <p>
+            <a href="#" class="btn btn-primary my-2">Search Book</a>
+        </p>
+    </div>
+</section>
 
+<div class="py-5 bg-light" >
+    <div class="container">
+        <h3>Top Books</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <svg width="100%" height="225"></svg>
+                    <div class="card-body">
+                        <p>This section will display short descriptions of the book</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="#" class="btn btn-sm btn-outline-secondary">View Details</a>
+                            </div>
+                            <small class="text-muted">Author Name</small>
+                        </div>
+                    </div>
+                </div>
 
-    @if (aa <= 5)
-    {
-        <b>Hello From If</b>
-    }
-    else
-    {
-        <b>Hello From Else</b>
-    }
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <svg width="100%" height="225"></svg>
+                    <div class="card-body">
+                        <p>This section will display short descriptions of the book</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="#" class="btn btn-sm btn-outline-secondary">View Details</a>
+                            </div>
+                            <small class="text-muted">Author Name</small>
+                        </div>
+                    </div>
+                </div>
 
-    @{
-        for (int i = 0; i < 5; i++)
-        {
-            <h3>Hello From Loop</h3>
-        }
-    }
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <svg width="100%" height="225"></svg>
+                    <div class="card-body">
+                        <p>This section will display short descriptions of the book</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="#" class="btn btn-sm btn-outline-secondary">View Details</a>
+                            </div>
+                            <small class="text-muted">Author Name</small>
+                        </div>
+                    </div>
+                </div>
 
-    <h1>ForEach</h1>
-    @{
-        var list = new List<int> { 1, 2, 3 };
-        foreach (var item in list)
-        {
-            <b>@item</b>
-        }
-    }
+            </div>
+        </div>
+    </div>
 
 </div>

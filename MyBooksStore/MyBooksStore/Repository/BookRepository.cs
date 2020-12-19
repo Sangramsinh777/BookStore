@@ -26,9 +26,10 @@ namespace MyBooksStore.Repository
         private List<BookModel> DataSource()
         {
             return new List<BookModel>() { 
-                new BookModel(){Id=1 , Title="C" , Author="sangram"},
-                new BookModel(){ Id=2 , Title="C++" , Author="ritesh"},
-                new BookModel(){ Id=3 , Title="C#" , Author="happy"}
+                new BookModel(){Id=1 , Title="C" , Author="sangram" , Description="This is C Description.", Category="Programming" , Language="English" , TotalPages=100},
+                new BookModel(){ Id=2 , Title="C++" , Author="ritesh" , Description="This is C++ Description.",Category="Programming" , Language="English" , TotalPages=120},
+                new BookModel(){ Id=3 , Title="C#" , Author="happy" , Description="This is C# Description.",Category="Programming" , Language="English" , TotalPages=150},
+                new BookModel(){ Id=4 , Title="Python" , Author="Pravin" , Description="This is Python Description.",Category="Programming" , Language="English" , TotalPages=200}
             };
         }
     }
