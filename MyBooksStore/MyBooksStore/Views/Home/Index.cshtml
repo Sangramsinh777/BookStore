@@ -1,7 +1,19 @@
-﻿<section class="jumbotron text-center" >
+﻿@{ 
+    dynamic data = ViewBag.data;
+    var bookInfo = ViewData["Book"] as BookModel;
+    //ViewData["Title"] = "Home";
+}
+<section class="jumbotron text-center" >
     <div class="container">
-        <h1>Welcom To Bookstore</h1>
+        <h1>Welcom To Bookstore @ViewBag.Title</h1>
         <p class="lead text-muted">
+            @data.Id @data.Name
+            <b>Id:@ViewBag.Type.Id</b>
+            <b>Name:@ViewBag.Type.Author</b>
+            <b>@ViewData["MyName"]</b>
+            <b>@bookInfo.Id</b>
+            <b>@bookInfo.Author</b>
+            <b>ViewDataAttribute:@ViewData["MyProperty"]</b>
             Hello , Welcome to our book store. ypu can find any book as you. you can read any book.
         </p>
         <p>

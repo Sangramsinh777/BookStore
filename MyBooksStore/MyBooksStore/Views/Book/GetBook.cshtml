@@ -1,5 +1,6 @@
-﻿@using MyBooksStore.Models
-@model BookModel
+﻿@{ 
+    ViewData["Title"] = "Book"+Model.Title;
+}
 <div class="container">
     <h1 class="display-4">Book Details</h1>
     <div class="row">
