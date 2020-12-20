@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using MyBooksStore.Data;
+using MyBooksStore.Repository;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,6 +33,7 @@ namespace MyBooksStore
                 options.UseSqlServer("Server=.;DataBase=BookStore;Integrated Security=True;")
             //Data Source = SANGRAMSINH; Initial Catalog = DBEmployee; Integrated Security = True
             );
+            services.AddScoped<BookRepository, BookRepository>();
         }
         
 

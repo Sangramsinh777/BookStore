@@ -11,27 +11,34 @@ namespace MyBooksStore.Controllers
     public class BookController : Controller
     {
         BookRepository _bookRepository = null;
-        public BookController()
+        public BookController(BookRepository bookRepository)
         {
-            _bookRepository = new BookRepository();
+            _bookRepository = bookRepository;
         }
 
-        public ViewResult AddBook()
+        public ViewResult AddBook(bool isSuccess=false , int bookId=0)
         {
+            ViewBag.IsSuccess = isSuccess;
+            ViewBag.BookId = bookId;
             return View();
         }
 
         [HttpPost]
-        public ViewResult AddBook(BookModel bookModel)
+        public IActionResult AddBook(BookModel bookModel)
         {
+            int id=_bookRepository.AddBook(bookModel);
+            if (id > 0) 
+            {
+                return RedirectToAction(nameof(AddBook),new { isSuccess =true , bookId = id });
+            }
             return View();
         }
 
-        [HttpPost]
-        public ViewResult AddNewBook(BookModel bookModel)
-        {
-            return View("AddBook");
-        }
+        //[HttpPost]
+        //public ViewResult AddNewBook(BookModel bookModel)
+        //{
+        //    return View("AddBook");
+        //}
 
 
         public ViewResult GetAllBooks()
