@@ -16,12 +16,30 @@ namespace MyBooksStore.Controllers
             _bookRepository = new BookRepository();
         }
 
+        public ViewResult AddBook()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ViewResult AddBook(BookModel bookModel)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ViewResult AddNewBook(BookModel bookModel)
+        {
+            return View("AddBook");
+        }
+
+
         public ViewResult GetAllBooks()
         {
             var data = _bookRepository.GetAllBooks();
             return View(data);
         }
-
+        [Route("book-detail/{id?}", Name ="BookById")]
         public ViewResult GetBook(int id)
         {
             var data= _bookRepository.GetBookById(id);

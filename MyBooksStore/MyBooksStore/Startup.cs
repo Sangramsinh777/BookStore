@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using MyBooksStore.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +28,12 @@ namespace MyBooksStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<BookStoreContext>(options=> 
+                options.UseSqlServer("Server=.;DataBase=BookStore;Integrated Security=True;")
+            //Data Source = SANGRAMSINH; Initial Catalog = DBEmployee; Integrated Security = True
+            );
         }
+        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -50,11 +57,18 @@ namespace MyBooksStore
 
             app.UseAuthorization();
 
-
-            app.UseEndpoints(endpoints=> {
+            app.UseEndpoints(endpoints =>
+            {
                 endpoints.MapDefaultControllerRoute();
             });
 
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "Default",
+            //        pattern: "bookApp/{controller=Home}/{action=Index}/{id?}"
+            //        );
+            //});
 
 
             //app.UseEndpoints(endpoints =>
@@ -75,7 +89,7 @@ namespace MyBooksStore
             //        else {
             //            await context.Response.WriteAsync($"Hello From:{env.EnvironmentName}");
             //        }
-                    
+
             //    });
             //});
         }
