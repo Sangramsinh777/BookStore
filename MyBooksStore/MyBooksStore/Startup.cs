@@ -34,6 +34,7 @@ namespace MyBooksStore
             //Data Source = SANGRAMSINH; Initial Catalog = DBEmployee; Integrated Security = True
             );
             services.AddScoped<BookRepository, BookRepository>();
+            services.AddScoped<LanguageRepository, LanguageRepository>();
         }
         
 

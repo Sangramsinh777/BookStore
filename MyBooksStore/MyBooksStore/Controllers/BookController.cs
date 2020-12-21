@@ -12,18 +12,20 @@ namespace MyBooksStore.Controllers
     public class BookController : Controller
     {
         BookRepository _bookRepository = null;
-        public BookController(BookRepository bookRepository)
+        LanguageRepository _languageRepository = null;
+        public BookController(BookRepository bookRepository , LanguageRepository languageRepository)
         {
             _bookRepository = bookRepository;
+            _languageRepository = languageRepository;
         }
 
-        public ViewResult AddBook(bool isSuccess = false, int bookId = 0)
+        public async Task<ViewResult> AddBook(bool isSuccess = false, int bookId = 0)
         {
             ViewBag.IsSuccess = isSuccess;
             ViewBag.BookId = bookId;
 
-            //var data = new BookModel() {Language="English" };
-            ViewBag.Language = new SelectList(GetLanguage(), "Id", "Text");
+            ViewBag.Language=new SelectList(await _languageRepository.GetLanguages(),"Id","Name");
+
             return View();
         }
 
@@ -38,8 +40,7 @@ namespace MyBooksStore.Controllers
                     return RedirectToAction(nameof(AddBook), new { isSuccess = true, bookId = id });
                 }
             }
-            
-            ViewBag.Language = new SelectList(GetLanguage(), "Id", "Text");
+            ViewBag.Language = new SelectList(await _languageRepository.GetLanguages(), "Id", "Name");
             return View();
         }
         public async Task<ViewResult> GetAllBooks()
@@ -54,44 +55,6 @@ namespace MyBooksStore.Controllers
             return View(data);
         }
 
-        private List<LanguageModel> GetLanguage()
-        {
-            return new List<LanguageModel>() { 
-                new LanguageModel(){ Id=1,Text="English"},
-                new LanguageModel(){ Id=2,Text="Hindi"},
-                new LanguageModel() { Id=3 , Text="Gujarati"}
-            };
-        }
-
-        //[HttpPost]
-        //public ViewResult AddNewBook(BookModel bookModel)
-        //{
-        //    return View("AddBook");
-        //}
-
-
-
-        //[Route("book-detail/{id?}", Name ="BookById")]
-        //public ViewResult GetBook(int id)
-        //{
-        //    var data= _bookRepository.GetBookById(id);
-        //    return View(data);
-        //}
-
-        public ViewResult ContactUs()
-        {
-            return View();
-        }
-
-        //public List<BookModel> GetAllBooks()
-        //{
-        //    return _bookRepository.GetAllBooks();
-        //}
-
-        //public BookModel GetBook(int id)
-        //{
-        //    return _bookRepository.GetBookById(id);
-        //}
 
         public List<BookModel> SearchBook(string title, string author)
         {
