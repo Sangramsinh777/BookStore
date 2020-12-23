@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyBooksStore.Models;
 using MyBooksStore.Repository;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,10 +15,12 @@ namespace MyBooksStore.Controllers
     {
         BookRepository _bookRepository = null;
         LanguageRepository _languageRepository = null;
-        public BookController(BookRepository bookRepository , LanguageRepository languageRepository)
+        IWebHostEnvironment _webHostEnvironment = null;
+        public BookController(BookRepository bookRepository , LanguageRepository languageRepository , IWebHostEnvironment webHostEnvironment)
         {
             _bookRepository = bookRepository;
             _languageRepository = languageRepository;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<ViewResult> AddBook(bool isSuccess = false, int bookId = 0)
@@ -34,6 +38,16 @@ namespace MyBooksStore.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (bookModel.CoverPhoto != null)
+                {
+                    string folderPath = "image/cover/";
+                    folderPath += Guid.NewGuid().ToString()+"_"+bookModel.CoverPhoto.FileName;
+                    bookModel.CoverImageUrl = "/"+folderPath;
+                    string serverPath = Path.Combine(_webHostEnvironment.WebRootPath, folderPath);
+
+                    await bookModel.CoverPhoto.CopyToAsync(new FileStream(serverPath, FileMode.Create));
+
+                }
                 int id = await _bookRepository.AddBook(bookModel);
                 if (id > 0)
                 {

@@ -18,5 +18,6 @@ namespace MyBooksStore.Data
         public DateTime? UpdatedOn { get; set; }
 
         public Language Language { get; set; }
+        public string CoverImageUrl { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MyBooksStore.Enums;
+﻿using Microsoft.AspNetCore.Http;
+using MyBooksStore.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,6 +22,11 @@ namespace MyBooksStore.Models
         public int TotalPages { get; set; }
         public int LanguageId { get; set; }
         public string Language { get; set; }
+
+        [Display(Name ="Upload Cover Photo")]
+        [Required(ErrorMessage ="Please upload cover photo")]
+        public IFormFile CoverPhoto { get; set; }
+        public string CoverImageUrl { get; set; }
 
     }
 }
