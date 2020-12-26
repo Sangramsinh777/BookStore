@@ -28,5 +28,16 @@ namespace MyBooksStore.Models
         public IFormFile CoverPhoto { get; set; }
         public string CoverImageUrl { get; set; }
 
+        [Display(Name ="Upload Multiple Photos")]
+        [Required(ErrorMessage ="Please Upload Multiple Photos")]
+        public IFormFileCollection GalleryFiles { get; set; }
+
+        public List<GalleryModel> Gallery { get; set; }
+
+        [Display(Name = "Upload Pdf File")]
+        [Required(ErrorMessage = "Please upload Pdf File")]
+        public IFormFile BookPdf { get; set; }
+        public string BookPdfUrl { get; set; }
+
     }
 }

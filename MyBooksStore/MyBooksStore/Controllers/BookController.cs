@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyBooksStore.Models;
@@ -41,13 +42,32 @@ namespace MyBooksStore.Controllers
                 if (bookModel.CoverPhoto != null)
                 {
                     string folderPath = "image/cover/";
-                    folderPath += Guid.NewGuid().ToString()+"_"+bookModel.CoverPhoto.FileName;
-                    bookModel.CoverImageUrl = "/"+folderPath;
-                    string serverPath = Path.Combine(_webHostEnvironment.WebRootPath, folderPath);
-
-                    await bookModel.CoverPhoto.CopyToAsync(new FileStream(serverPath, FileMode.Create));
+                    bookModel.CoverImageUrl= await UploadImage(folderPath,bookModel.CoverPhoto);
 
                 }
+                if (bookModel.GalleryFiles != null)
+                {
+                    string folder = "image/gallery/";
+                    bookModel.Gallery = new List<GalleryModel>();
+
+                    foreach (var file in bookModel.GalleryFiles)
+                    {
+                        var gallery = new GalleryModel() { 
+                            Name=file.FileName,
+                            Url= await UploadImage(folder, file)
+                            };
+
+                        bookModel.Gallery.Add(gallery);
+                        
+                    }
+                }
+
+                if (bookModel.BookPdf != null)
+                {
+                    string folderPath = "image/pdf/";
+                    bookModel.BookPdfUrl = await UploadImage(folderPath,bookModel.BookPdf);
+                }
+
                 int id = await _bookRepository.AddBook(bookModel);
                 if (id > 0)
                 {
@@ -57,6 +77,19 @@ namespace MyBooksStore.Controllers
             ViewBag.Language = new SelectList(await _languageRepository.GetLanguages(), "Id", "Name");
             return View();
         }
+
+        private async Task<string> UploadImage(string folderPath, IFormFile file)
+        {
+           
+            folderPath += Guid.NewGuid().ToString() + "_" + file.FileName;
+            
+            string serverPath = Path.Combine(_webHostEnvironment.WebRootPath, folderPath);
+
+            await file.CopyToAsync(new FileStream(serverPath, FileMode.Create));
+
+            return "/" + folderPath;
+        }
+
         public async Task<ViewResult> GetAllBooks()
         {
             var data = await _bookRepository.GetAllBooks();

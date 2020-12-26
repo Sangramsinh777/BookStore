@@ -26,8 +26,18 @@ namespace MyBooksStore.Repository
                 LanguageId = bookModel.LanguageId,
                 CreatedOn = DateTime.UtcNow,
                 UpdatedOn = DateTime.UtcNow,
-                CoverImageUrl=bookModel.CoverImageUrl
+                CoverImageUrl=bookModel.CoverImageUrl,
+                BookPdfUrl=bookModel.BookPdfUrl
             };
+            newBook.bookGallery = new List<BookGallery>();
+            foreach (var file in bookModel.Gallery)
+            {
+                newBook.bookGallery.Add(new BookGallery()
+                {
+                    Name=file.Name,
+                    Url=file.Url
+                });
+            }
 
             await _context.Books.AddAsync(newBook);
             await _context.SaveChangesAsync();
@@ -59,8 +69,8 @@ namespace MyBooksStore.Repository
 
         public async Task<BookModel> GetBookById(int id)
         {
-            return await  _context.Books.Where(b=>b.Id==id).
-                Select( book => new BookModel()
+            return await _context.Books.Where(b => b.Id == id).
+                Select(book => new BookModel()
                 {
                     Id = book.Id,
                     Title = book.Title,
@@ -69,7 +79,13 @@ namespace MyBooksStore.Repository
                     TotalPages = book.TotalPages,
                     LanguageId = book.LanguageId,
                     Language = book.Language.Name,
-                    Category = book.Category
+                    Category = book.Category,
+                    Gallery = book.bookGallery.Select(g => new GalleryModel() { 
+                        Id=g.Id,
+                        Name=g.Name,
+                        Url=g.Url
+                    }).ToList(),
+                    BookPdfUrl=book.BookPdfUrl
                 }).FirstOrDefaultAsync();
         }
 

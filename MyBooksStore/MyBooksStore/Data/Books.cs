@@ -19,5 +19,8 @@ namespace MyBooksStore.Data
 
         public Language Language { get; set; }
         public string CoverImageUrl { get; set; }
+
+        public ICollection<BookGallery> bookGallery { get; set; }
+        public string BookPdfUrl { get; set; }
     }
 }
