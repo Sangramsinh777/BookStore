@@ -33,8 +33,8 @@ namespace MyBooksStore
                 options.UseSqlServer("Server=.;DataBase=BookStore;Integrated Security=True;")
             //Data Source = SANGRAMSINH; Initial Catalog = DBEmployee; Integrated Security = True
             );
-            services.AddScoped<BookRepository, BookRepository>();
-            services.AddScoped<LanguageRepository, LanguageRepository>();
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<ILanguageRepository, LanguageRepository>();
         }
         
 

@@ -14,10 +14,10 @@ namespace MyBooksStore.Controllers
 {
     public class BookController : Controller
     {
-        BookRepository _bookRepository = null;
-        LanguageRepository _languageRepository = null;
+        IBookRepository _bookRepository = null;
+        ILanguageRepository _languageRepository = null;
         IWebHostEnvironment _webHostEnvironment = null;
-        public BookController(BookRepository bookRepository , LanguageRepository languageRepository , IWebHostEnvironment webHostEnvironment)
+        public BookController(IBookRepository bookRepository , ILanguageRepository languageRepository , IWebHostEnvironment webHostEnvironment)
         {
             _bookRepository = bookRepository;
             _languageRepository = languageRepository;
@@ -28,9 +28,6 @@ namespace MyBooksStore.Controllers
         {
             ViewBag.IsSuccess = isSuccess;
             ViewBag.BookId = bookId;
-
-            ViewBag.Language=new SelectList(await _languageRepository.GetLanguages(),"Id","Name");
-
             return View();
         }
 
@@ -74,7 +71,6 @@ namespace MyBooksStore.Controllers
                     return RedirectToAction(nameof(AddBook), new { isSuccess = true, bookId = id });
                 }
             }
-            ViewBag.Language = new SelectList(await _languageRepository.GetLanguages(), "Id", "Name");
             return View();
         }
 
@@ -96,6 +92,7 @@ namespace MyBooksStore.Controllers
             return View(data);
         }
 
+        [Route("book-details/{id:int}",Name ="bookDetailsRoute")]
         public async Task<ViewResult> GetBook(int id)
         {
             var data = await _bookRepository.GetBookById(id);

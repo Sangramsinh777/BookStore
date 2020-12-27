@@ -1,67 +1,29 @@
 ﻿@{ 
     dynamic data = ViewBag.data;
     var bookInfo = ViewData["Book"] as BookModel;
-    //ViewData["Title"] = "Home";
 }
+@inject  MyBooksStore.Repository.IBookRepository _BookRepository
+
 <section class="jumbotron text-center" >
     <div class="container">
-        <h1>Welcom To Bookstore @ViewBag.Title</h1>
+        
+        <h1>Welcom To Bookstore</h1>
         <p>
             <a href="#" class="btn btn-primary my-2">Search Book</a>
         </p>
+        <div>
+            @foreach (var item in await _BookRepository.GetAllBooks())
+            {
+                <h3>@item.Title</h3>
+            }
+        </div>
+
     </div>
 </section>
 
 <div class="py-5 bg-light" >
     <div class="container">
-        <h3>Top Books</h3>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <svg width="100%" height="225"></svg>
-                    <div class="card-body">
-                        <p>This section will display short descriptions of the book</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a href="#" class="btn btn-sm btn-outline-secondary">View Details</a>
-                            </div>
-                            <small class="text-muted">Author Name</small>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <svg width="100%" height="225"></svg>
-                    <div class="card-body">
-                        <p>This section will display short descriptions of the book</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a href="#" class="btn btn-sm btn-outline-secondary">View Details</a>
-                            </div>
-                            <small class="text-muted">Author Name</small>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <svg width="100%" height="225"></svg>
-                    <div class="card-body">
-                        <p>This section will display short descriptions of the book</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a href="#" class="btn btn-sm btn-outline-secondary">View Details</a>
-                            </div>
-                            <small class="text-muted">Author Name</small>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+       @await Component.InvokeAsync("TopBooks",new { count=3});
     </div>
 
 </div>
