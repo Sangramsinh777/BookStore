@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using MyBooksStore.Data;
+using MyBooksStore.Models;
 using MyBooksStore.Repository;
 using System;
 using System.Collections.Generic;
@@ -30,11 +31,13 @@ namespace MyBooksStore
         {
             services.AddControllersWithViews();
             services.AddDbContext<BookStoreContext>(options=> 
-                options.UseSqlServer("Server=.;DataBase=BookStore;Integrated Security=True;")
-            //Data Source = SANGRAMSINH; Initial Catalog = DBEmployee; Integrated Security = True
+                options.UseSqlServer(Configuration.GetConnectionString("DbConnection"))
             );
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<ILanguageRepository, LanguageRepository>();
+            services.AddSingleton<IMessageRepository, MessageRepository>();
+            services.Configure<NewBookConfig>("InternalBook",Configuration.GetSection("NewBookAlertObj"));
+            services.Configure<NewBookConfig>("ThirdPartyBook",Configuration.GetSection("ThirdPartyNewBookAlertObj"));
         }
         
 

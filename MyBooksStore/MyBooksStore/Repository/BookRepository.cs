@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MyBooksStore.Data;
 using MyBooksStore.Models;
 using System;
@@ -11,9 +12,11 @@ namespace MyBooksStore.Repository
     public class BookRepository : IBookRepository
     {
         private readonly BookStoreContext _context = null;
-        public BookRepository(BookStoreContext context)
+        private readonly IConfiguration _configuration=null;
+        public BookRepository(BookStoreContext context , IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
         public async Task<int> AddBook(BookModel bookModel)
         {
@@ -115,7 +118,7 @@ namespace MyBooksStore.Repository
 
         public string GetApplicationName()
         {
-            return "Book Store Management"; 
+            return _configuration["AppName"]; 
         }
     }
 }
