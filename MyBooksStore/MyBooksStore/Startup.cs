@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,9 +36,13 @@ namespace MyBooksStore
             );
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<ILanguageRepository, LanguageRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddSingleton<IMessageRepository, MessageRepository>();
+            
+
             services.Configure<NewBookConfig>("InternalBook",Configuration.GetSection("NewBookAlertObj"));
             services.Configure<NewBookConfig>("ThirdPartyBook",Configuration.GetSection("ThirdPartyNewBookAlertObj"));
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<BookStoreContext>();
         }
         
 
@@ -54,50 +59,17 @@ namespace MyBooksStore
             }
             app.UseStaticFiles();
 
-            //app.UseStaticFiles(new StaticFileOptions() { 
-            //    FileProvider=new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "MyResources")),
-            //    RequestPath= "/MyResources"
-            //});
-
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
             });
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //        name: "Default",
-            //        pattern: "bookApp/{controller=Home}/{action=Index}/{id?}"
-            //        );
-            //});
-
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller=Home}/{action=Index}/{id?}");
-            //});
-
-            //app.UseEndpoints(endpoints=> {
-            //    endpoints.MapGet("/", async context =>
-            //    {
-
-            //        if (env.IsDevelopment())
-            //        {
-            //            await context.Response.WriteAsync($"Hello From:{env.EnvironmentName}");
-            //        }
-            //        else {
-            //            await context.Response.WriteAsync($"Hello From:{env.EnvironmentName}");
-            //        }
-
-            //    });
-            //});
         }
     }
 }

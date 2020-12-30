@@ -11,13 +11,6 @@
         <p>
             <a href="#" class="btn btn-primary my-2">Search Book</a>
         </p>
-        <div>
-            @foreach (var item in await _BookRepository.GetAllBooks())
-            {
-                <h3>@item.Title</h3>
-            }
-        </div>
-
     </div>
 </section>
 
