@@ -10,6 +10,7 @@ using System.Dynamic;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MyBooksStore.Repository;
+using MyBooksStore.Services;
 
 namespace MyBooksStore.Controllers
 {
@@ -19,26 +20,24 @@ namespace MyBooksStore.Controllers
         private readonly NewBookConfig _configuration;
         private readonly NewBookConfig _thirdPartyConfig;
         private readonly IMessageRepository _messageRepository;
+        private readonly IUserService _userService;
        
-        public HomeController(ILogger<HomeController> logger , IOptionsSnapshot<NewBookConfig> newConfigOtions , IMessageRepository messageRepository)
+        public HomeController(ILogger<HomeController> logger , IOptionsSnapshot<NewBookConfig> newConfigOtions , IMessageRepository messageRepository,
+            IUserService userService
+            )
         {
             _logger = logger;
-            //_configuration = newConfigOtions.Value;
             _messageRepository = messageRepository;
             _configuration = newConfigOtions.Get("InternalBook");
             _thirdPartyConfig = newConfigOtions.Get("ThirdPartyBook");
+            _userService = userService;
         }
 
         public ViewResult Index()
         {
-            //var appName = _configuration["AppName"];
-            //var key1 = _configuration["InfoObj:Key1"];
-            //var key2 = _configuration["InfoObj:Key2"];
-            //var key3 = _configuration["InfoObj:Key3:Key1AndKey2"];
-            //var key4 = _configuration.GetValue<bool>("NewBookAlert");
+            var id = _userService.GetUserId();
+            var isLoggedIn = _userService.IsLoggedUser();
 
-            //var newBook = new NewBookConfig();
-            //_configuration.Bind("NewBookAlertObj", newBook);
             bool isAlert = _configuration.DisplayNewBookAlert;
             var thirdParty = _thirdPartyConfig;
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,6 +25,7 @@ namespace MyBooksStore.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        [Authorize]
         public async Task<ViewResult> AddBook(bool isSuccess = false, int bookId = 0)
         {
             ViewBag.IsSuccess = isSuccess;
@@ -32,6 +34,7 @@ namespace MyBooksStore.Controllers
         }
 
         [HttpPost]
+       
         public async Task<IActionResult> AddBook(BookModel bookModel)
         {
             if (ModelState.IsValid)

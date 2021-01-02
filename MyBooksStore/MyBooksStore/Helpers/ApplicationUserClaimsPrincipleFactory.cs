@@ -1,0 +1,26 @@
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using MyBooksStore.Migrations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+namespace MyBooksStore.Helpers
+{
+    public class ApplicationUserClaimsPrincipleFactory :UserClaimsPrincipalFactory<ApplicationUser , IdentityRole>
+    {
+        public ApplicationUserClaimsPrincipleFactory(UserManager<ApplicationUser> userManager ,RoleManager<IdentityRole> roleManager , IOptions<IdentityOptions> options):
+            base(userManager,roleManager,options)
+        {
+
+        }
+        protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
+        {
+            var identity=await base.GenerateClaimsAsync(user);
+
+            return identity;
+        }
+    }
+}

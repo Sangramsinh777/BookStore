@@ -42,5 +42,65 @@ namespace MyBooksStore.Controllers
             }
             return View();
         }
+
+        [Route("login")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [Route("login")]
+        [HttpPost]
+        public async Task<IActionResult> Login(SignInModel signInModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var result=await _accountRepository.PasswordSignInAsync(signInModel);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid Username or Password");
+                }
+            }
+            return View(signInModel);
+        }
+
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _accountRepository.SignOutAsync();
+            return RedirectToAction("Index","Home");
+        }
+
+        [Route("change-password")]
+        public async Task<IActionResult> ChangePassword()
+        {
+            return View();
+        }
+        [Route("change-password")]
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var result=await _accountRepository.ChangePassword(changePasswordModel);
+                if (result.Succeeded)
+                {
+                    ViewBag.IsSuccess = true;
+
+                    ModelState.Clear();
+                    return View();
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid Credentials");
+                }
+            }
+            return View(changePasswordModel);
+        }
+
     }
 }

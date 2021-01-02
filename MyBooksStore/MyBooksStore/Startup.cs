@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using MyBooksStore.Data;
 using MyBooksStore.Models;
 using MyBooksStore.Repository;
+using MyBooksStore.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,11 +39,15 @@ namespace MyBooksStore
             services.AddScoped<ILanguageRepository, LanguageRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddSingleton<IMessageRepository, MessageRepository>();
-            
+            services.AddScoped<IUserService, UserService>();
 
             services.Configure<NewBookConfig>("InternalBook",Configuration.GetSection("NewBookAlertObj"));
             services.Configure<NewBookConfig>("ThirdPartyBook",Configuration.GetSection("ThirdPartyNewBookAlertObj"));
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<BookStoreContext>();
+
+            services.ConfigureApplicationCookie(config => {
+                config.LoginPath =Configuration["Application:LoginPath"];
+            });
         }
         
 
